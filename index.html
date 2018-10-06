@@ -1,0 +1,107 @@
+<html>
+<head>
+    <title> PassAuth</title>
+    <link rel="stylesheet" href="main.css"
+></head>
+<body id="main">
+    <div id="sub-main">
+        <h2> PassAuth</h2>
+        <hr>
+        <div id="entry-boxes">
+            <input name="un" id="input-box-un" placeholder="Username" >
+            <input name="pass" id="input-box-pass" type="password" placeholder="Password" autocomplete="new-password">
+        </div>
+        
+        <button type="submit" id="login" onclick="generateLogs()"> Login </button>
+        
+        <div id="logs">
+            <H2>Instructions</H2>
+            Type your username and password as you normally would. When you're done, click on the login button to see your keystroke 'fingerprint'. The overlay dots that you see are visible marks of the mouse movements. It can be mapped to a vector that will reveal your mouse dynamics.
+        </div>
+        
+    </div>
+    
+    <script>
+        (function() {
+        "use strict";
+
+        document.onmousemove = handleMouseMove;
+        function handleMouseMove(event) {
+            var dot, eventDoc, doc, body, pageX, pageY;
+
+        event = event || window.event; // IE-ism
+
+        // If pageX/Y aren't available and clientX/Y
+        // are, calculate pageX/Y - logic taken from jQuery
+            // Calculate pageX/Y if missing and clientX/Y available
+        if (event.pageX == null && event.clientX != null) {
+        eventDoc = (event.target && event.target.ownerDocument) || document;
+        doc = eventDoc.documentElement;
+        body = eventDoc.body;
+
+        event.pageX = event.clientX +
+          (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+          (doc && doc.clientLeft || body && body.clientLeft || 0);
+        event.pageY = event.clientY +
+          (doc && doc.scrollTop  || body && body.scrollTop  || 0) -
+          (doc && doc.clientTop  || body && body.clientTop  || 0 );
+        }
+
+        // Add a dot to follow the cursor
+        dot = document.createElement('div');
+        dot.className = "dot";
+        dot.style.left = event.pageX + "px";
+        dot.style.top = event.pageY + "px";
+        document.body.appendChild(dot);
+        }
+        })();    
+
+
+        var usernameFieldLogs = new Array();
+        var passwordFieldLogs = new Array();
+        
+        usernameField = document.getElementById('input-box-un');
+        passwordField = document.getElementById('input-box-pass');
+        
+        function attachDurationHandler(element, arr){
+            var initTime=0;
+            element.onkeydown = function(e) {
+                initTime = e.timeStamp;
+            };
+
+            element.onkeyup = function(e) {
+                duration = e.timeStamp-initTime;
+                if (initTime){
+                    arr.push(duration);
+                }
+            }; 
+        }
+        
+        attachDurationHandler(usernameField, usernameFieldLogs);
+        
+        attachDurationHandler(passwordField, passwordFieldLogs);
+        
+        function generateLogs(){
+            logs = document.getElementById('logs');
+            logs.innerHTML = '<H2> Here\'s your keystroke dynamics </H2>'
+            logs.innerHTML += '<p> UserID: ' +
+                            usernameFieldLogs + 
+                             '</p>';
+            
+            logs.innerHTML += '<p> Password: ' +
+                            passwordFieldLogs + 
+                             '</p>';
+        }
+
+    </script>
+
+</body>
+</html>
+
+<!-- 
+https://developer.mozilla.org/en-US/docs/Web/API/InputEvent 
+https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+https://developer.mozilla.org/en-US/docs/Web/API/PageTransitionEvent
+https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent
+https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent
+--->

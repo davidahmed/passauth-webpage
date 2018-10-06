@@ -1,0 +1,48 @@
+body {
+    background-color: floralwhite;
+}
+
+h2 {
+    display: block;
+    text-align: center;
+}
+
+#entry-boxes {
+    display: block;
+    margin-top: 10%
+}
+#input-box-un, #input-box-pass {
+    display: block;
+    height: 2rem;
+    width: 20%;
+    min-width: 200px;
+    border-width: 5px;
+    border: solid rebeccapurple;
+    margin: 20px auto 20px auto;
+    padding: 10px
+}
+
+#login {
+    display: block;
+    margin: auto auto auto auto;
+    font-family: Tahoma;
+    font-size: 20px;
+    width: 20%;
+    min-width: 200px;
+    background-color: rebeccapurple;
+    color: white;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  background-color: red;
+  position: absolute;
+pointer-events: none;
+
+}
+
+#logs {
+    margin-top: 40px;
+    padding-left: 40px;
+}
